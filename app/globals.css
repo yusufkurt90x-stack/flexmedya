@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Açık tema: sıcak krem zemin */
+:root {
+  --bg: #fbf7f2;
+  --fg: #1a1426;
+  --muted: #5b5366;
+  --subtle: #857c8f;
+  --elev: #ffffff;
+  --card: rgb(255 255 255 / 0.75);
+  --line: rgb(26 20 38 / 0.09);
+  --line-strong: rgb(26 20 38 / 0.2);
+  --grid: rgb(26 20 38 / 0.06);
+}
+
+/* Koyu tema (varsayılan): gece mavisi */
+.dark {
+  --bg: #080a1c;
+  --fg: #f5f3ff;
+  --muted: #a5a3c2;
+  --subtle: #75739a;
+  --elev: #11142e;
+  --card: rgb(17 20 46 / 0.55);
+  --line: rgb(255 255 255 / 0.09);
+  --line-strong: rgb(255 255 255 / 0.2);
+  --grid: rgb(165 163 255 / 0.07);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-elev: var(--elev);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@theme {
+  --animate-pixel-fade: pixel-fade 6s ease-in-out infinite;
+  --animate-blob-drift: blob-drift 18s ease-in-out infinite;
+  --animate-marquee: marquee-scroll var(--duration, 30s) linear infinite;
+  --animate-meteor: meteor 5s linear infinite;
+  --animate-flow: flow var(--flow-duration, 4s) linear infinite;
+  --animate-caret: caret 1s steps(2, start) infinite;
+
+  @keyframes pixel-fade {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes blob-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(40px, -50px) scale(1.08);
+    }
+    66% {
+      transform: translate(-30px, 30px) scale(0.95);
+    }
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes meteor {
+    0% {
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(215deg) translateX(-600px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes flow {
+    to {
+      stroke-dashoffset: -400;
+    }
+  }
+
+  @keyframes caret {
+    to {
+      visibility: hidden;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Küçük kare pixel-grid, üstten radyal maske ile söner */
+.pixel-grid {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+}
+
+.meteor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 1px;
+  background-image: linear-gradient(to right, #64748b, transparent);
+}
+
+.text-gradient {
+  background-image: linear-gradient(to right, #fb923c, #fb7185, #e879f9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-flow,
+  .animate-pixel-fade,
+  .animate-blob-drift {
+    animation: none !important;
+  }
+  .meteor {
+    display: none;
+  }
+}
