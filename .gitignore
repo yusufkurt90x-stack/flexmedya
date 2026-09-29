@@ -43,3 +43,6 @@ next-env.d.ts
 
 # admin paneline yüklenen veriler
 /data/
+
+.vercel
+.env*
